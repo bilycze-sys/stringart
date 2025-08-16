@@ -1,0 +1,112 @@
+<%- include('partials/header') %>
+
+<!-- =========== HERO SEKCE =========== -->
+<section class="hero">
+    <div class="container">
+        <h1>Vaše láska ve vláknech</h1>
+        <p class="subtitle">Ručně vytvořený portrét na míru z vaší fotografie. Fixní cena 3 000 Kč.</p>
+        <div class="cta-group">
+            <a href="#objednavka" class="btn btn-primary">Objednat portrét páru</a>
+            <a href="#proces" class="btn btn-secondary">Jak to funguje?</a>
+        </div>
+    </div>
+</section>
+
+<!-- =========== SEKCE PRODUKTY (Prompt #4) =========== -->
+<section id="produkty" class="section">
+    <div class="container">
+        <h2>Vyberte si svůj styl</h2>
+        <div class="product-category-grid">
+            <% if (productCategories && productCategories.length > 0) { %>
+                <% productCategories.forEach(category => { %>
+                    <article class="product-category-card">
+                        <% if (category.isBestseller) { %>
+                            <div class="bestseller-badge">Nejprodávanější</div>
+                        <% } %>
+                        <img src="<%= category.imageUrl %>" alt="<%= category.title %>" class="product-category-card__image">
+                        <div class="product-category-card__content">
+                            <h3><%= category.title %></h3>
+                            <p class="product-category-card__price"><%= category.price %> Kč</p>
+                            <p><%= category.description %></p>
+                            <div class="product-category-card__actions">
+                                <a href="#" class="btn btn-secondary">Zobrazit detail</a>
+                            </div>
+                        </div>
+                    </article>
+                <% }) %>
+            <% } %>
+        </div>
+    </div>
+</section>
+
+<!-- =========== SEKCE PROCES =========== -->
+<section id="proces" class="section section-gray">
+    <div class="container">
+        <h2>Jak to funguje? Jednoduše.</h2>
+        <div class="process-grid">
+            <div class="process-step">
+                <div class="icon">📸</div>
+                <h3>1. Pošlete fotku</h3>
+                <p>Nahrajete 1–3 vaše oblíbené snímky a my vybereme ten nejlepší.</p>
+            </div>
+            <div class="process-step">
+                <div class="icon">🎨</div>
+                <h3>2. Schválíte návrh</h3>
+                <p>Pošlu vám náhled kompozice ke schválení, než začnu vyrábět.</p>
+            </div>
+            <div class="process-step">
+                <div class="icon">🧵</div>
+                <h3>3. Ruční výroba</h3>
+                <p>S láskou a péčí ručně napínám stovky nití na dřevěný rám.</p>
+            </div>
+            <div class="process-step">
+                <div class="icon">📦</div>
+                <h3>4. Odeslání k vám</h3>
+                <p>Bezpečně zabalím a odesílám. Doručení obvykle trvá 7–10 dní.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- =========== SEKCE GALERIE =========== -->
+<section id="galerie" class="section">
+    <div class="container">
+        <h2>Galerie inspirace</h2>
+        <p class="section-subtitle">Každý obraz je originál – ručně vyrobený s maximální péčí. Podívejte se, jak může vypadat ten váš.</p>
+        <div class="gallery-grid">
+            <% if (gallery && gallery.length > 0) { %>
+                <% gallery.forEach(image => { %>
+                    <div class="gallery-item">
+                        <img src="<%= image.src %>" alt="<%= image.alt %>" loading="lazy">
+                    </div>
+                <% }) %>
+            <% } %>
+        </div>
+    </div>
+</section>
+
+<!-- =========== SEKCE PROČ NÁS =========== -->
+<section id="proc-nas" class="section section-gray">
+    <div class="container">
+        <h2>Proč si vybrat právě nás?</h2>
+        <p class="section-subtitle">
+            Jsme největší tvůrci string artu v České republice a naší vášní je proměnit vaši vzpomínku v jedinečné umělecké dílo.
+            Každý obraz vzniká zcela ručně – od prvního hřebíčku po poslední napnutou nit.
+        </p>
+        <div class="why-us-grid">
+            <div class="why-us-item">
+                <div class="icon">📸</div>
+                <h3>Z každé fotky umění</h3>
+                <p>Jakoukoliv fotku proměníme v umělecký portrét – ať už jde o snímek z mobilu, svatební fotografii nebo momentku z dovolené.</p>
+            </div>
+            <div class="why-us-item">
+                <div class="icon">✨</div>
+                <h3>Ověřená kvalita</h3>
+                <p>Desítky ověřených recenzí od spokojených zákazníků jsou důkazem, že do každého díla vkládáme maximum péče a detailu.</p>
+            </div>
+        </div>
+        <p class="final-cta-text">Vyberte si nás a získáte nejen obraz, ale vzpomínku, která zůstane navždy.</p>
+    </div>
+</section>
+
+<%- include('partials/footer') %>
