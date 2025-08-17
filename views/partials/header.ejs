@@ -4,22 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= pageTitle %> | StringArt Studio</title>
+
+    <!-- !!! PŘIDÁNO ZDE: SEO Meta Tagy !!! -->
+    <meta name="description" content="String Art Studio – ručně vyrobené portréty a obrazy z nití. Vyrobíme portrét partnera, dítěte, mazlíčka nebo oblíbeného herce. Originální dárek z ČR.">
+    
+    <!-- !!! PŘIDÁNO ZDE: Open Graph Tagy pro sociální sítě !!! -->
+    <meta property="og:title" content="String Art Studio – Vaše láska ve vláknech">
+    <meta property="og:description" content="Ručně vyrobený string art portrét na míru – pro partnery, děti, mazlíčky, oblíbené herce i symboly.">
+    <!-- DŮLEŽITÉ: Tuto URL budete muset změnit na finální adresu obrázku, až bude web nasazený -->
+    <meta property="og:image" content="https://www.kouzloniti.eu/images/product-portrait.jpg">
+    <meta property="og:type" content="website">
+
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
     <div class="usp-bar">
-        <span>✨ Ruční práce • 🚚 Dodání 7–10 dní • 🇨🇿 Vyrobeno v ČR • 💳 Cena 3 000 Kč</span>
+        <span>✨ Ruční práce • 🚚 Dodání 7–10 dní • 🇨🇿 Vyrobeno v ČR</span>
     </div>
     <header class="main-header">
         <div class="container">
             <a href="/" class="logo">StringArt Studio</a>
             <nav class="main-nav">
-                <a href="#produkty">Obchod</a>
-                <a href="#proces">Jak to vyrábíme</a>
-                <a href="#recenze">Recenze</a>
-                <!-- Další odkazy přidáme později -->
+                <a href="/#produkty">Obchod</a>
+                <a href="/#proces">Jak to vyrábíme</a>
+                <a href="/#galerie">Recenze</a>
+                <a href="/kosik">
+                    Košík 
+                    <% if (cart.totalItems > 0) { %>
+                        <span class="cart-badge"><%= cart.totalItems %></span>
+                    <% } %>
+                </a>
             </nav>
-            <a href="#objednavka" class="btn btn-primary">Objednat portrét</a>
+            <a href="/#produkty" class="btn btn-primary">Objednat portrét</a>
         </div>
     </header>
     <main>

@@ -3,19 +3,21 @@
 <!-- =========== HERO SEKCE =========== -->
 <section class="hero">
     <div class="container">
+        <!-- H1 - Správná hierarchie -->
         <h1>Vaše láska ve vláknech</h1>
-        <p class="subtitle">Ručně vytvořený portrét na míru z vaší fotografie. Fixní cena 3 000 Kč.</p>
+        <p class="subtitle">Proměňte svou oblíbenou fotografii v jedinečné umělecké dílo – vzpomínku, která vydrží navždy.</p>
         <div class="cta-group">
-            <a href="#objednavka" class="btn btn-primary">Objednat portrét páru</a>
-            <a href="#proces" class="btn btn-secondary">Jak to funguje?</a>
+            <a href="#produkty" class="btn btn-primary" aria-label="Přejít na objednávku portrétu">Chci svůj portrét</a>
+            <a href="#proces" class="btn btn-secondary" aria-label="Zjistit, jak funguje výroba">Jak to funguje?</a>
         </div>
     </div>
 </section>
 
-<!-- =========== SEKCE PRODUKTY (Prompt #4) =========== -->
+<!-- =========== SEKCE PRODUKTY =========== -->
 <section id="produkty" class="section">
     <div class="container">
-        <h2>Vyberte si svůj styl</h2>
+        <!-- H2 - Správná hierarchie -->
+        <h2>Vyberte si vzpomínku, kterou chcete uchovat</h2>
         <div class="product-category-grid">
             <% if (productCategories && productCategories.length > 0) { %>
                 <% productCategories.forEach(category => { %>
@@ -23,15 +25,38 @@
                         <% if (category.isBestseller) { %>
                             <div class="bestseller-badge">Nejprodávanější</div>
                         <% } %>
-                        <img src="<%= category.imageUrl %>" alt="<%= category.title %>" class="product-category-card__image">
+                        <!-- Alt text -->
+                        <img src="<%= category.imageUrl %>" alt="String art obraz: <%= category.title %>" class="product-category-card__image">
                         <div class="product-category-card__content">
+                            <!-- H3 - Správná hierarchie -->
                             <h3><%= category.title %></h3>
-                            <p class="product-category-card__price"><%= category.price %> Kč</p>
                             <p><%= category.description %></p>
                             <div class="product-category-card__actions">
-                                <a href="#" class="btn btn-secondary">Zobrazit detail</a>
+                                <!-- Aria-label -->
+                                <a href="/produkt/<%= category.id %>" class="btn btn-secondary" aria-label="Zobrazit detail produktu <%= category.title %>">Zobrazit detail</a>
                             </div>
                         </div>
+
+                        <!-- Strukturovaná data JSON-LD -->
+                        <script type="application/ld+json">
+                        {
+                          "@context": "https://schema.org/",
+                          "@type": "Product",
+                          "name": "<%= category.title %>",
+                          "image": "https://www.kouzloniti.eu<%= category.imageUrl %>",
+                          "description": "<%= category.description %>",
+                          "brand": {
+                            "@type": "Brand",
+                            "name": "StringArt Studio"
+                          },
+                          "offers": {
+                            "@type": "Offer",
+                            "priceCurrency": "CZK",
+                            "price": "<%= category.price %>",
+                            "availability": "https://schema.org/InStock"
+                          }
+                        }
+                        </script>
                     </article>
                 <% }) %>
             <% } %>
@@ -42,27 +67,27 @@
 <!-- =========== SEKCE PROCES =========== -->
 <section id="proces" class="section section-gray">
     <div class="container">
-        <h2>Jak to funguje? Jednoduše.</h2>
+        <h2>Jen 4 kroky k vaší vzpomínce</h2>
         <div class="process-grid">
             <div class="process-step">
                 <div class="icon">📸</div>
-                <h3>1. Pošlete fotku</h3>
-                <p>Nahrajete 1–3 vaše oblíbené snímky a my vybereme ten nejlepší.</p>
+                <h3>1. Vyberete fotku</h3>
+                <p>Nahrajete 1–3 své oblíbené snímky. Společně vybereme ten nejlepší.</p>
             </div>
             <div class="process-step">
                 <div class="icon">🎨</div>
                 <h3>2. Schválíte návrh</h3>
-                <p>Pošlu vám náhled kompozice ke schválení, než začnu vyrábět.</p>
+                <p>Pošlu vám náhled kompozice a po vašem schválení (dokud nejste spokojeni) začínám s výrobou.</p>
             </div>
             <div class="process-step">
                 <div class="icon">🧵</div>
                 <h3>3. Ruční výroba</h3>
-                <p>S láskou a péčí ručně napínám stovky nití na dřevěný rám.</p>
+                <p>S láskou a péčí ručně napínám stovky metrů nití. Jsou to hodiny precizní práce.</p>
             </div>
             <div class="process-step">
                 <div class="icon">📦</div>
-                <h3>4. Odeslání k vám</h3>
-                <p>Bezpečně zabalím a odesílám. Doručení obvykle trvá 7–10 dní.</p>
+                <h3>4. Bezpečné doručení</h3>
+                <p>Portrét bezpečně zabalím a odešlu. Doručení trvá obvykle 7–10 dní.</p>
             </div>
         </div>
     </div>
@@ -71,13 +96,14 @@
 <!-- =========== SEKCE GALERIE =========== -->
 <section id="galerie" class="section">
     <div class="container">
-        <h2>Galerie inspirace</h2>
-        <p class="section-subtitle">Každý obraz je originál – ručně vyrobený s maximální péčí. Podívejte se, jak může vypadat ten váš.</p>
+        <h2>Podívejte se, jak může vypadat váš portrét</h2>
+        <p class="section-subtitle">Každý obraz je originál – ručně vyrobený s maximální péčí.</p>
         <div class="gallery-grid">
             <% if (gallery && gallery.length > 0) { %>
                 <% gallery.forEach(image => { %>
                     <div class="gallery-item">
-                        <img src="<%= image.src %>" alt="<%= image.alt %>" loading="lazy">
+                        <!-- Alt text -->
+                        <img src="<%= image.src %>" alt="<%= image.alt %> - ukázka práce StringArt Studia" loading="lazy">
                     </div>
                 <% }) %>
             <% } %>
@@ -90,23 +116,30 @@
     <div class="container">
         <h2>Proč si vybrat právě nás?</h2>
         <p class="section-subtitle">
-            Jsme největší tvůrci string artu v České republice a naší vášní je proměnit vaši vzpomínku v jedinečné umělecké dílo.
-            Každý obraz vzniká zcela ručně – od prvního hřebíčku po poslední napnutou nit.
+            Každý obraz vzniká výhradně ručně – od prvního hřebíčku po poslední napnutou nit. Do každého díla vkládáme hodiny pečlivé práce a srdce. Desítky spokojených zákazníků potvrzují, že netvoříme jen obraz, ale vzpomínku, která zůstane navždy.
         </p>
         <div class="why-us-grid">
             <div class="why-us-item">
                 <div class="icon">📸</div>
-                <h3>Z každé fotky umění</h3>
-                <p>Jakoukoliv fotku proměníme v umělecký portrét – ať už jde o snímek z mobilu, svatební fotografii nebo momentku z dovolené.</p>
+                <h3>Proměníme vaši fotku v jedinečný obraz</h3>
+                <p>Ať už je to selfie, svatební snímek nebo vzpomínka z dovolené.</p>
             </div>
             <div class="why-us-item">
                 <div class="icon">✨</div>
                 <h3>Ověřená kvalita</h3>
-                <p>Desítky ověřených recenzí od spokojených zákazníků jsou důkazem, že do každého díla vkládáme maximum péče a detailu.</p>
+                <p>Desítky pozitivních recenzí dokazují, že každý detail tvoříme s maximální péčí.</p>
             </div>
         </div>
         <p class="final-cta-text">Vyberte si nás a získáte nejen obraz, ale vzpomínku, která zůstane navždy.</p>
     </div>
 </section>
+
+<!-- Skrytý text pro SEO a screen readery -->
+<p class="visually-hidden">
+  String Art Studio – ručně vyrábíme portréty a obrazy z nití. 
+  Nabízíme portréty párů, jednotlivců, dětí, mazlíčků i oblíbených herců nebo symbolů.
+  String art portrét z fotky je originální dárek k výročí, svatbě nebo Vánocům. Vše vyrobeno v České republice.
+</p>
+
 
 <%- include('partials/footer') %>

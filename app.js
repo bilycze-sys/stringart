@@ -1,51 +1,63 @@
-// ===================================================================
-// SOUBOR: app.js (KOMPLETNÍ KÓD - AKTUALIZACE BEZ PŘEJMENOVÁVÁNÍ)
-// ===================================================================
+// =======================================================
+// SOUBOR: app.js (S NOVÝMI TEXTY U PRODUKTŮ)
+// =======================================================
 
 const express = require('express');
 const path = require('path');
 const multer = require('multer');
+const session = require('express-session');
 
 const app = express();
 const PORT = 3000;
 
+app.use(express.urlencoded({ extended: true }));
 const upload = multer({ dest: 'uploads/' });
+
+app.use(session({
+    secret: 'mujSuperTajnyKlicProSession',
+    resave: false,
+    saveUninitialized: true
+}));
+
+app.use((req, res, next) => {
+    res.locals.cart = req.session.cart || { items: [], totalItems: 0 };
+    next();
+});
 
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 app.use(express.static(path.join(__dirname, 'public')));
 
-// --- DATA PRO APLIKACI ---
-
-// Data pro produktové kategorie (s vašimi novými změnami a existujícími názvy souborů)
+// --- DATA PRO APLIKACI (S NOVÝMI TEXTY) ---
 const productCategories = [
     {
-        title: "Portrét pro dva (kruhový rám)",
-        description: "Nechte zvěčnit váš vztah. Nejoblíbenější volba pro páry.",
-        // POUŽÍVÁME OBRÁZEK SILUETY V SRDCI, DOKUD NEDODÁTE FINÁLNÍ
-        imageUrl: "/images/1.png",
+        id: "portret-pro-dva",
+        title: "Portrét pro dva (tvar srdce)",
+        description: "Obraz, který vypráví váš příběh lásky. Nejprodávanější volba pro páry a výročí.",
+        imageUrl: "/images/Snímek obrazovky 2025-08-14 185347.png",
         isBestseller: true,
         price: 3000
     },
     {
-        title: "Portrét jednotlivce", // Změněn název
-        description: "Zvěčněte kohokoliv, na kom vám záleží – partnera, dítě, nebo i domácího mazlíčka.", // Změněn text
-        imageUrl: "/images/Snímek obrazovky 2025-08-14 185250.png", // Změněno na obrázek jednotlivce
+        id: "portret-jednotlivce",
+        title: "Portrét jednotlivce",
+        // !!! ZMĚNA ZDE !!!
+        description: "Portrét nebo libovolný motiv – partner, dítě, mazlíček, oblíbený herec či symbol. Dárek, který nikdy nevybledne.",
+        imageUrl: "/images/Snímek obrazovky 2025-08-14 185250.png",
         isBestseller: false,
         price: 3000
     },
     {
-        title: "Svatební & Výroční dar", // Změněn název
-        description: "Ideální jako svatební dar nebo elegantní připomínka vašeho velkého dne.",
-        imageUrl: "/images/Snímek obrazovky 2025-08-14 184322.png", // Změněno na obrázek páru na stojanu
+        id: "svatebni-dar",
+        title: "Svatební & Výroční dar",
+        description: "Jedinečná připomínka vašeho velkého dne. Ideální svatební nebo výroční dar.",
+        imageUrl: "/images/Snímek obrazovky 2025-08-14 184322.png",
         isBestseller: false,
         price: 3000
     }
 ];
 
-// Data pro galerii
 const galleryImages = [
-    // Zde jsou vaše obrázky z galerie...
     { src: "/images/Snímek obrazovky 2025-08-14 184200.png", alt: "String art s motivem dolaru" },
     { src: "/images/Snímek obrazovky 2025-08-14 184304.png", alt: "String art portrét páru zblízka" },
     { src: "/images/Snímek obrazovky 2025-08-14 184322.png", alt: "String art portrét páru na stojanu" },
@@ -67,11 +79,32 @@ app.get('/', (req, res) => {
     });
 });
 
-app.post('/objednat', upload.single('photo'), (req, res) => {
-    const customerData = req.body;
-    const uploadedFile = req.file;
-    console.log("Nová objednávka přijata!", { customerData, uploadedFile });
-    res.send('<h1>Děkujeme za vaši objednávku!</h1><p>Brzy se vám ozveme s návrhem.</p><a href="/">Zpět na hlavní stránku</a>');
+app.get('/produkt/:id', (req, res) => {
+    const productId = req.params.id;
+    const product = productCategories.find(p => p.id === productId);
+    if (product) {
+        res.render('detail', { pageTitle: product.title, product: product });
+    } else {
+        res.redirect('/');
+    }
+});
+
+app.post('/pridat-do-kosiku', (req, res) => {
+    const { productId, size, threads } = req.body;
+    const product = productCategories.find(p => p.id === productId);
+    if (product) {
+        if (!req.session.cart) {
+            req.session.cart = { items: [], totalItems: 0 };
+        }
+        const cartItem = { id: product.id, title: product.title, price: product.price, imageUrl: product.imageUrl, size: size, threads: threads };
+        req.session.cart.items.push(cartItem);
+        req.session.cart.totalItems++;
+    }
+    res.redirect('/kosik');
+});
+
+app.get('/kosik', (req, res) => {
+    res.render('cart', { pageTitle: 'Váš nákupní košík' });
 });
 
 // --- SPUŠTĚNÍ SERVERU ---

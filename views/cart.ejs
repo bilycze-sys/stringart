@@ -1,0 +1,44 @@
+<%- include('partials/header') %>
+
+<div class="container section">
+    <h1>Váš nákupní košík</h1>
+
+    <% if (cart && cart.items.length > 0) { %>
+        <div class="cart-layout">
+            <!-- Seznam položek v košíku -->
+            <div class="cart-items">
+                <% cart.items.forEach(item => { %>
+                    <div class="cart-item">
+                        <div class="cart-item__image">
+                            <img src="<%= item.imageUrl %>" alt="<%= item.title %>">
+                        </div>
+                        <div class="cart-item__details">
+                            <h3><%= item.title %></h3>
+                            <p>Velikost: <%= item.size %></p>
+                            <p>Počet vláken: <%= item.threads %></p>
+                        </div>
+                        <div class="cart-item__price">
+                            <p><%= item.price.toFixed(2) %> Kč</p>
+                        </div>
+                    </div>
+                <% }) %>
+            </div>
+
+            <!-- Souhrn objednávky -->
+            <div class="cart-summary">
+                <h2>Souhrn</h2>
+                <% const totalPrice = cart.items.reduce((sum, item) => sum + item.price, 0) %>
+                <div class="summary-row">
+                    <span>Cena celkem:</span>
+                    <span><%= totalPrice.toFixed(2) %> Kč</span>
+                </div>
+                <a href="#" class="btn btn-primary btn-full-width">Pokračovat k pokladně</a>
+            </div>
+        </div>
+    <% } else { %>
+        <p class="empty-cart-message">Váš košík je zatím prázdný.</p>
+        <a href="/" class="btn btn-secondary">Zpět do obchodu</a>
+    <% } %>
+</div>
+
+<%- include('partials/footer') %>

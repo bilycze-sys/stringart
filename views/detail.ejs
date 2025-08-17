@@ -1,0 +1,50 @@
+<%- include('partials/header') %>
+
+<div class="container section">
+    <div class="product-detail-layout">
+        <!-- Levá strana: Obrázek -->
+        <div class="product-detail-image">
+            <img src="<%= product.imageUrl %>" alt="<%= product.title %>">
+        </div>
+
+        <!-- Pravá strana: Informace a personalizace -->
+        <div class="product-detail-info">
+            <h1><%= product.title %></h1>
+            <p class="product-detail-price"><%= product.price.toFixed(2) %> Kč</p>
+            <p class="product-detail-description"><%= product.description %></p>
+
+            <hr class="divider">
+
+            <!-- Formulář pro personalizaci -->
+            <form action="/pridat-do-kosiku" method="POST">
+                <!-- Skryté pole pro ID produktu -->
+                <input type="hidden" name="productId" value="<%= product.id %>">
+                
+                <!-- Výběr velikosti -->
+                <div class="form-group">
+                    <label for="size">Velikost rámu:</label>
+                    <select name="size" id="size" class="form-control">
+                        <option value="S">S (malý)</option>
+                        <option value="M" selected>M (střední)</option>
+                        <option value="L">L (velký)</option>
+                    </select>
+                </div>
+
+                <!-- Výběr počtu vláken -->
+                <div class="form-group">
+                    <label for="threads">Počet vláken (detail):</label>
+                    <select name="threads" id="threads" class="form-control">
+                        <option value="1">1 (základní)</option>
+                        <option value="2" selected>2 (doporučeno)</option>
+                        <option value="3">3 (vysoký detail)</option>
+                        <option value="4">4 (maximální detail)</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-full-width">Přidat do košíku</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<%- include('partials/footer') %>
